@@ -31,7 +31,7 @@ namespace GEX
 {
 	const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 	Application::Application() :
-		_window(sf::VideoMode(1024, 768), "States", sf::Style::Close),
+		_window(sf::VideoMode(480, 600), "Frogger", sf::Style::Close),
 		_player(),
 		_stateStack(State::Context(_window, _player, _music, _soundPlayer)),
 		_statsText()
@@ -40,7 +40,7 @@ namespace GEX
 
 		FontHolder::getInstance().load(FontID::Main, "../Media/Sansation.ttf");
 		TextureHolder::getInstance().load(TextureID::MenuScreen, "../Media/Textures/TitleScreen.png");
-		TextureHolder::getInstance().load(TextureID::TitleScreen, "../Media/Textures/MenuScreen.png");
+		TextureHolder::getInstance().load(TextureID::TitleScreen, "../Media/Textures/FroggerTitle.png");
 		TextureHolder::getInstance().load(TextureID::Desert, "../Media/Textures/Desert.png");
 		TextureHolder::getInstance().load(TextureID::Jungle, "../Media/Textures/Jungle.png");
 		TextureHolder::getInstance().load(TextureID::GEXTexture, "../Media/Textures/Face.png");
@@ -48,6 +48,7 @@ namespace GEX
 		TextureHolder::getInstance().load(TextureID::Particle, "../Media/Textures/Particle.png");
 		TextureHolder::getInstance().load(TextureID::Explosion, "../Media/Textures/Explosion.png");
 		TextureHolder::getInstance().load(TextureID::FinishLine, "../Media/Textures/FinishLine.png");
+		TextureHolder::getInstance().load(TextureID::Background, "../Media/Textures/Background.png");
 
 		_statsText.setFont(FontHolder::getInstance().get(FontID::Main));
 		_statsText.setPosition(5.f, 5.f);

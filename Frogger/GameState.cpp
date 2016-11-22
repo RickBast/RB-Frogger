@@ -38,16 +38,16 @@ namespace GEX
 	bool GameState::update(sf::Time dt)
 	{
 		_world.update(dt);
-		if (!_world.hasAlivePlayer())
+		/*if (!_world.hasAlivePlayer())
 		{
 			_player.setMissionStatus(MissionStatus::Fail);
 			requestStackPush(StateID::GameOver);
-		}
-		else if (!_world.hasReachedFinish())
-		{
-			_player.setMissionStatus(MissionStatus::Sucess);
-			requestStackPush(StateID::GameOver);
-		}
+		}*/
+		//else if (!_world.hasReachedFinish())
+		//{
+		//	_player.setMissionStatus(MissionStatus::Sucess);
+		//	requestStackPush(StateID::GameOver);
+		//}
 
 		CommandQueue& commands = _world.getCommandQueue();
 		_player.handleRealTimeInput(commands);
