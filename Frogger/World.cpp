@@ -26,14 +26,14 @@ namespace GEX
 		_sceneGraph(),
 		_sceneLayers(),
 		_commandQueue(),
-		_worldBounds(0, 0, _worldView.getSize().x, 4000.f),
+		_worldBounds(0, 0, _worldView.getSize().x, _worldView.getSize().y),
 		_spawnPosition(_worldView.getSize().x / 2.f, _worldBounds.height - _worldView.getSize().y / 2.f),
 		_scrollSpeed(-50.f),
 		_playerAircraft(nullptr)
 	{
 
 		buildScene();
-		addEnemies();
+	//	addEnemies();
 
 		// Prepare the view
 		_worldView.setCenter(_spawnPosition);
@@ -44,8 +44,8 @@ namespace GEX
 
 		updateSounds();
 		// Scroll the world
-		_worldView.move(0.f, _scrollSpeed * dt.asSeconds());
-		_playerAircraft->setVelocity(0.f, _scrollSpeed);
+		//_worldView.move(0.f, _scrollSpeed * dt.asSeconds());
+		//_playerAircraft->setVelocity(0.f, _scrollSpeed);
 
 		guideMissiles();
 		destroyEntitiesOutsideView();
@@ -77,12 +77,12 @@ namespace GEX
 		sf::FloatRect viewBounds(_worldView.getCenter() - _worldView.getSize() / 2.f, _worldView.getSize());
 		const float borderDistance = 35.f;
 
-		sf::Vector2f position = _playerAircraft->getPosition();
-		position.x = std::max(position.x, viewBounds.left + borderDistance);
-		position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-		position.y = std::max(position.y, viewBounds.top + borderDistance);
-		position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-		_playerAircraft->setPosition(position);
+		//sf::Vector2f position = _playerAircraft->getPosition();
+		//position.x = std::max(position.x, viewBounds.left + borderDistance);
+		//position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+		//position.y = std::max(position.y, viewBounds.top + borderDistance);
+		//position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+		//_playerAircraft->setPosition(position);
 	}
 
 	sf::FloatRect World::getViewBounds() const
@@ -267,9 +267,8 @@ namespace GEX
 		}
 
 		// Prepare the tiled background
-		sf::Texture& texture = TextureHolder::getInstance().get(TextureID::Jungle);
+		sf::Texture& texture = TextureHolder::getInstance().get(TextureID::Background);
 		sf::IntRect textureRect(_worldBounds);
-		texture.setRepeated(true);
 
 		// Add the background sprite to the scene
 		std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
@@ -277,30 +276,30 @@ namespace GEX
 		_sceneLayers[Background]->attachChild(std::move(backgroundSprite));	
 		
 
-		sf::Texture& finishlineTexture = TextureHolder::getInstance().get(TextureID::FinishLine);
-		sf::IntRect textureRect2(0, 0, finishlineTexture.getSize().x, finishlineTexture.getSize().y);
+		//sf::Texture& finishlineTexture = TextureHolder::getInstance().get(TextureID::FinishLine);
+		//sf::IntRect textureRect2(0, 0, finishlineTexture.getSize().x, finishlineTexture.getSize().y);
 	
 		// Add the background sprite to the scene
-		std::unique_ptr<SpriteNode> finishLineSprite(new SpriteNode(finishlineTexture, textureRect2));
+	/*	std::unique_ptr<SpriteNode> finishLineSprite(new SpriteNode(finishlineTexture, textureRect2));
 		finishLineSprite->setPosition(_worldBounds.left, _worldBounds.top + 800.f);
-		_sceneLayers[Air]->attachChild(std::move(finishLineSprite));
+		_sceneLayers[Air]->attachChild(std::move(finishLineSprite));*/
 	
 
 
 		//particle system
-		std::unique_ptr<ParticleNode> smokeNode(new ParticleNode(Particle::Type::Smoke));
+	/*	std::unique_ptr<ParticleNode> smokeNode(new ParticleNode(Particle::Type::Smoke));
 		_sceneLayers[Air]->attachChild(std::move(smokeNode));
 
 		std::unique_ptr<ParticleNode> fireNode(new ParticleNode(Particle::Type::Propellant));
-		_sceneLayers[Air]->attachChild(std::move(fireNode));
+		_sceneLayers[Air]->attachChild(std::move(fireNode));*/
 
 
 		// Add player's aircraft
-		std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Type::Eagle));
+		/*std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Type::Eagle));
 		_playerAircraft = leader.get();
 		_playerAircraft->setPosition(_spawnPosition);
 		_playerAircraft->setVelocity(0.f, _scrollSpeed);
-		_sceneLayers[Air]->attachChild(std::move(leader));
+		_sceneLayers[Air]->attachChild(std::move(leader));*/
 
 		// add SoundNode
 
