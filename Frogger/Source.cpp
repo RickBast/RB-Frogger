@@ -15,8 +15,8 @@ These additions and modifications are my sole work for prog 1266
 #include "Application.h"
 
 
-	int main()
-	{
-		GEX::Application app;
-		app.run();
-	}
+int main()
+{
+	GEX::Application app;
+	app.run();
+}
