@@ -27,7 +27,7 @@ namespace GEX
 		Explosion2,
 		LaunchMissile,
 		CollectPickup,
-		Button,
+		Button
 	};
 
 
@@ -53,8 +53,7 @@ namespace GEX
 		Particle,
 		Atlas,
 		Explosion,
-		FinishLine,
-		Background
+		FinishLine
 	};
 
 }
