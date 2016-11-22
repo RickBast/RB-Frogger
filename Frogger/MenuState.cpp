@@ -79,12 +79,12 @@ namespace GEX
 
 		if (event.key.code == sf::Keyboard::Return)
 		{
-			if (_optionIndex == Play)
+			/*if (_optionIndex == Play)
 			{
 				requestStackPop();
 				requestStackPush(StateID::Game);
 			}
-			else if (_optionIndex == Exit)
+			else*/ if (_optionIndex == Exit)
 			{
 				// The exit option was chosen, by removing itself, the stack will be empty, and the game will know it is time to close.
 				requestStackPop();
