@@ -142,6 +142,7 @@
     <ClCompile Include="EmmitterNode.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FontHolder.cpp" />
+    <ClCompile Include="Frogger.cpp" />
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GEXState.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="EmmitterNode.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FontHolder.h" />
+    <ClInclude Include="Frogger.h" />
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GEXState.h" />

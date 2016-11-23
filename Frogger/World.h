@@ -21,6 +21,7 @@ These additions and modifications are my sole work for prog 1266
 #include "CommandQueue.h"
 #include "PlayerControl.h"
 #include "SoundPlayer.h"
+#include "Frogger.h"
 
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Graphics/Texture.hpp"
@@ -94,6 +95,7 @@ namespace GEX
 		sf::Vector2f                        _spawnPosition;
 		float                               _scrollSpeed;
 		Aircraft*                           _playerAircraft;
+		Frogger*                            _playerFrog;
 		std::vector<SpawnPoint>				_enemySpawnPoints;
 		std::vector<Aircraft*>				_activeEnemies;
 		SoundPlayer&						_soundPlayer;

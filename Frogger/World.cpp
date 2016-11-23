@@ -27,16 +27,17 @@ namespace GEX
 		_sceneLayers(),
 		_commandQueue(),
 		_worldBounds(0, 0, _worldView.getSize().x, _worldView.getSize().y),
-		_spawnPosition(_worldView.getSize().x / 2.f, _worldBounds.height - _worldView.getSize().y / 2.f),
+		_spawnPosition(_worldView.getSize().x / 2.f, _worldView.getSize().y - 20.f),
 		_scrollSpeed(-50.f),
-		_playerAircraft(nullptr)
+		_playerAircraft(nullptr),
+		_playerFrog(nullptr)
 	{
 
 		buildScene();
 	//	addEnemies();
 
 		// Prepare the view
-		_worldView.setCenter(_spawnPosition);
+		//_worldView.setCenter(_spawnPosition);
 	}
 
 	void World::update(sf::Time dt)
@@ -295,11 +296,11 @@ namespace GEX
 
 
 		// Add player's aircraft
-		/*std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Type::Eagle));
-		_playerAircraft = leader.get();
-		_playerAircraft->setPosition(_spawnPosition);
-		_playerAircraft->setVelocity(0.f, _scrollSpeed);
-		_sceneLayers[Air]->attachChild(std::move(leader));*/
+		std::unique_ptr<Frogger> leader(new Frogger());
+		_playerFrog = leader.get();
+		_playerFrog->setPosition(_spawnPosition);
+		_playerFrog->setVelocity(0.f, 0.f);
+		_sceneLayers[Air]->attachChild(std::move(leader));
 
 		// add SoundNode
 

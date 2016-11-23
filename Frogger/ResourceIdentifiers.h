@@ -54,7 +54,8 @@ namespace GEX
 		Atlas,
 		Explosion,
 		FinishLine,
-		Background
+		Background,
+		Frog
 	};
 
 }
