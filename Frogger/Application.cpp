@@ -39,7 +39,7 @@ namespace GEX
 		_window.setKeyRepeatEnabled(false);
 
 		FontHolder::getInstance().load(FontID::Main, "../Media/Sansation.ttf");
-		TextureHolder::getInstance().load(TextureID::MenuScreen, "../Media/Textures/TitleScreen.png");
+		TextureHolder::getInstance().load(TextureID::MenuScreen, "../Media/Textures/FroggerTitle.png");
 		TextureHolder::getInstance().load(TextureID::TitleScreen, "../Media/Textures/FroggerTitle.png");
 		TextureHolder::getInstance().load(TextureID::Desert, "../Media/Textures/Desert.png");
 		TextureHolder::getInstance().load(TextureID::Jungle, "../Media/Textures/Jungle.png");
