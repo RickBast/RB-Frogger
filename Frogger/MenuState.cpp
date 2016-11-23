@@ -81,8 +81,8 @@ namespace GEX
 		{
 			if (_optionIndex == Play)
 			{
-				//requestStackPop();
-				//requestStackPush(StateID::Game);
+				requestStackPop();
+				requestStackPush(StateID::Game);
 			}
 			else if (_optionIndex == Exit)
 			{
