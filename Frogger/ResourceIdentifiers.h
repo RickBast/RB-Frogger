@@ -55,7 +55,7 @@ namespace GEX
 		Explosion,
 		FinishLine,
 		Background,
-		Frog
+		FrogAtlas
 	};
 
 }
