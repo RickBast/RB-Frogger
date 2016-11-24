@@ -16,6 +16,8 @@ These additions and modifications are my sole work for prog 1266
 #include "Aircraft.h"
 #include "Category.h"
 #include "Frogger.h"
+#include "SFML\Graphics.hpp"
+#include "Animation2.h"
 
 namespace GEX
 {
@@ -28,17 +30,22 @@ namespace GEX
 			aircraft.accelerate(velocity);
 		}
 		sf::Vector2f velocity;
+		sf::Sprite _sprite;
 	};
 
 	struct FroggerMover
 	{
-		FroggerMover(float vx, float vy) : velocity(vx, vy)
+		FroggerMover(float vx, float vy, FrogState state) : hop(vx, vy), state(state)
 		{}
 		void operator()(Frogger& frogger, sf::Time dt)const
 		{
-			frogger.setPosition(frogger.getPosition().x + velocity.x, frogger.getPosition().y + velocity.y);
+			
+			frogger.jump(state, dt);
+			frogger.setPosition(frogger.getPosition().x + hop.x, frogger.getPosition().y + hop.y);
 		}
-		sf::Vector2f velocity;
+		sf::Vector2f hop;
+		FrogState state;
+		sf::Sprite _sprite;
 	};
 
 	PlayerControl::PlayerControl():
@@ -89,13 +96,13 @@ namespace GEX
 
 	void PlayerControl::initializedActionBindings()
 	{
-		const float playerSpeed = 40.f;
+		const float hopDistance = 40.f;
 		const float RotationSpeed = 1.f;
 
-		_actionBindings[Action::MoveLeft].action = derivedAction<Frogger>(FroggerMover(-40.f, 0.f));
-		_actionBindings[Action::MoveRight].action = derivedAction<Frogger>(FroggerMover(40.f, 0.f));
-		_actionBindings[Action::MoveUp].action = derivedAction<Frogger>(FroggerMover(0.f, -40.f));
-		_actionBindings[Action::MoveDown].action = derivedAction<Frogger>(FroggerMover(0.f, 40.f));
+		_actionBindings[Action::MoveLeft].action = derivedAction<Frogger>(FroggerMover(-hopDistance, 0.f, FrogState::Left));
+		_actionBindings[Action::MoveRight].action = derivedAction<Frogger>(FroggerMover(hopDistance, 0.f, FrogState::Right));
+		_actionBindings[Action::MoveUp].action = derivedAction<Frogger>(FroggerMover(0.f, -hopDistance, FrogState::Up));
+		_actionBindings[Action::MoveDown].action = derivedAction<Frogger>(FroggerMover(0.f, hopDistance, FrogState::Down    ));
 		//_actionBindings[Action::FireBullet].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.fire();});
 		//_actionBindings[Action::LaunchMissile].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.launchMissile();});
 

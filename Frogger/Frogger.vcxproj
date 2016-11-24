@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="Aircraft.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animation2.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GEXState.cpp" />
+    <ClCompile Include="JsonFrameParser.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
@@ -171,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="Aircraft.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animation2.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Category.h" />
@@ -187,6 +190,8 @@
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GEXState.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="JsonFrameParser.hpp" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MusicPlayer.h" />
@@ -213,6 +218,7 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FroggerAtlas.json" />
     <None Include="StringHelpers.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
