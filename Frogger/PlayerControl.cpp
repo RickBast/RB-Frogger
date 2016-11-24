@@ -15,6 +15,7 @@ These additions and modifications are my sole work for prog 1266
 #include "PlayerControl.h"
 #include "Aircraft.h"
 #include "Category.h"
+#include "Frogger.h"
 
 namespace GEX
 {
@@ -25,6 +26,17 @@ namespace GEX
 		void operator()(Aircraft& aircraft, sf::Time dt)const
 		{
 			aircraft.accelerate(velocity);
+		}
+		sf::Vector2f velocity;
+	};
+
+	struct FroggerMover
+	{
+		FroggerMover(float vx, float vy) : velocity(vx, vy)
+		{}
+		void operator()(Frogger& frogger, sf::Time dt)const
+		{
+			frogger.setPosition(frogger.getPosition().x + velocity.x, frogger.getPosition().y + velocity.y);
 		}
 		sf::Vector2f velocity;
 	};
@@ -71,24 +83,24 @@ namespace GEX
 		_keyBindings[sf::Keyboard::Right] = Action::MoveRight;
 		_keyBindings[sf::Keyboard::Up] = Action::MoveUp;
 		_keyBindings[sf::Keyboard::Down] = Action::MoveDown;
-		_keyBindings[sf::Keyboard::Space] = Action::FireBullet;
-		_keyBindings[sf::Keyboard::M] = Action::LaunchMissile;
+		//_keyBindings[sf::Keyboard::Space] = Action::FireBullet;
+		//_keyBindings[sf::Keyboard::M] = Action::LaunchMissile;
 	}
 
 	void PlayerControl::initializedActionBindings()
 	{
-		const float playerSpeed = 200.f;
+		const float playerSpeed = 40.f;
 		const float RotationSpeed = 1.f;
 
-		_actionBindings[Action::MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f));
-		_actionBindings[Action::MoveRight].action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f));
-		_actionBindings[Action::MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
-		_actionBindings[Action::MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, playerSpeed));
-		_actionBindings[Action::FireBullet].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.fire();});
-		_actionBindings[Action::LaunchMissile].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.launchMissile();});
+		_actionBindings[Action::MoveLeft].action = derivedAction<Frogger>(FroggerMover(-40.f, 0.f));
+		_actionBindings[Action::MoveRight].action = derivedAction<Frogger>(FroggerMover(40.f, 0.f));
+		_actionBindings[Action::MoveUp].action = derivedAction<Frogger>(FroggerMover(0.f, -40.f));
+		_actionBindings[Action::MoveDown].action = derivedAction<Frogger>(FroggerMover(0.f, 40.f));
+		//_actionBindings[Action::FireBullet].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.fire();});
+		//_actionBindings[Action::LaunchMissile].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time dt) {a.launchMissile();});
 
 		for (auto& pair : _actionBindings)
-			pair.second.category = Category::PlayerAircraft;
+			pair.second.category = Category::PlayerFrog;
 	}
 
 	bool PlayerControl::isRealTimeAction(Action action)
@@ -99,7 +111,7 @@ namespace GEX
 		case Action::MoveLeft:
 		case Action::MoveRight:
 		case Action::MoveUp:
-			return true;
+			return false;
 		default:
 			return false;
 		}
