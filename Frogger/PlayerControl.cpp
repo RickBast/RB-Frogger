@@ -39,8 +39,7 @@ namespace GEX
 		{}
 		void operator()(Frogger& frogger, sf::Time dt)const
 		{
-			
-			frogger.jump(state, dt);
+			frogger.jump(state);
 			frogger.setPosition(frogger.getPosition().x + hop.x, frogger.getPosition().y + hop.y);
 		}
 		sf::Vector2f hop;
