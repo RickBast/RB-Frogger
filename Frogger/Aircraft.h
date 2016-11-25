@@ -77,6 +77,7 @@ namespace GEX
 		Animation			_explosion;
 		Command				_dropPickupCommand;
 		bool				_spawnedPickup;
+		
 
 	};
 }
