@@ -19,7 +19,7 @@ namespace GEX
 
 		_music.setVolume(_volume);
 		_music.setLoop(true);
-		_music.play();
+		//_music.play();
 	}
 	void MusicPlayer::stop()
 	{
