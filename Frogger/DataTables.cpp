@@ -121,15 +121,14 @@ namespace GEX
 		data[Vehicle::Type::Car].texture = TextureID::FrogAtlas;
 		data[Vehicle::Type::Car].textureRect = sf::IntRect(1,62,35,29);
 		data[Vehicle::Type::Car].speed = -50.f;
-		data[Vehicle::Type::Car].spawnPoint = sf::Vector2f(499,460);
+		data[Vehicle::Type::Car].spawnPoint = sf::Vector2f(490,460);
 		data[Vehicle::Type::Car].spawnInterval = sf::seconds(7);
 
 		data[Vehicle::Type::RaceCarL].texture = TextureID::FrogAtlas;
 		data[Vehicle::Type::RaceCarL].textureRect = sf::IntRect(139, 100, 38, 39);
 		data[Vehicle::Type::RaceCarL].speed = -40.f;
-		data[Vehicle::Type::RaceCarL].spawnPoint = sf::Vector2f(400, 540);
+		data[Vehicle::Type::RaceCarL].spawnPoint = sf::Vector2f(499, 540);
 		data[Vehicle::Type::RaceCarL].spawnInterval = sf::seconds(7);
-
 
 		data[Vehicle::Type::RaceCarR].texture = TextureID::FrogAtlas;
 		data[Vehicle::Type::RaceCarR].textureRect = sf::IntRect(69, 100, 37, 37);
@@ -174,6 +173,18 @@ namespace GEX
 		data[RiverObjects::Type::SmallLog].speed = 40.f;
 		data[RiverObjects::Type::SmallLog].spawnPoint = sf::Vector2f(-50, 220);
 		data[RiverObjects::Type::SmallLog].spawnInterval = sf::seconds(5);
+
+		data[RiverObjects::Type::TwoTurtles].texture = TextureID::FrogAtlas;
+		data[RiverObjects::Type::TwoTurtles].textureRect = sf::IntRect(125, 1, 65, 26);
+		data[RiverObjects::Type::TwoTurtles].speed = -40.f;
+		data[RiverObjects::Type::TwoTurtles].spawnPoint = sf::Vector2f(470, 180);
+		data[RiverObjects::Type::TwoTurtles].spawnInterval = sf::seconds(5);
+
+		data[RiverObjects::Type::Threeturtles].texture = TextureID::FrogAtlas;
+		data[RiverObjects::Type::Threeturtles].textureRect = sf::IntRect(192, 1, 99, 26);
+		data[RiverObjects::Type::Threeturtles].speed = -40.f;
+		data[RiverObjects::Type::Threeturtles].spawnPoint = sf::Vector2f(499, 300);
+		data[RiverObjects::Type::Threeturtles].spawnInterval = sf::seconds(5);
 
 
 

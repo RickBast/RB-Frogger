@@ -99,8 +99,8 @@ namespace GEX
 	sf::FloatRect World::getBattlefieldBounds() const
 	{
 		sf::FloatRect bounds = getViewBounds();
-		bounds.left -= 100;
-		bounds.width += 100;
+		bounds.left -= 200;
+		bounds.width += 200;
 		return bounds;
 	}
 
@@ -134,6 +134,13 @@ namespace GEX
 			std::unique_ptr<RiverObjects> log3(new RiverObjects(RiverObjects::Type::SmallLog));//(randomInt(int(Vehicle::Type::TypeCount)))));
 			_countdown += log3->getSpawnInterval();
 			_sceneLayers[Air]->attachChild(std::move(log3));
+
+			std::unique_ptr<RiverObjects> Turtles3(new RiverObjects(RiverObjects::Type::Threeturtles));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(Turtles3));
+
+			std::unique_ptr<RiverObjects> Turtles2(new RiverObjects(RiverObjects::Type::TwoTurtles));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(Turtles2));
+
 
 		}
 		else if (_countdown > sf::Time::Zero)
