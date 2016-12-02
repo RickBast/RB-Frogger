@@ -23,6 +23,7 @@ These additions and modifications are my sole work for prog 1266
 #include "Projectile.h"
 #include "Particle.h"
 #include "Vehicle.h"
+#include "RiverObjects.h"
 
 
 namespace GEX
@@ -77,11 +78,21 @@ namespace GEX
 		sf::Time        spawnInterval;
 	};
 
+	struct RiverObjectData
+	{
+		TextureID		texture;
+		sf::IntRect		textureRect;
+		float			speed;
+		sf::Vector2f    spawnPoint;
+		sf::Time        spawnInterval;
+	};
+
 	std::map<Pickup::Type, PickupData>			initializePickupData();
 	std::map<Aircraft::Type, AircraftData>		initializeAircraftData();
 	std::map<Projectile::Type, ProjectileData>	initializeProjectileData();
 	std::map<Particle::Type, ParticleData>		initializeParticleData();
 	std::map<Vehicle::Type, VehicleData>		initializeVehicleData();
+	std::map<RiverObjects::Type, RiverObjectData>		initializeRiverObjectData();
 	
 
 

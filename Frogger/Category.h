@@ -30,6 +30,7 @@ namespace GEX
 			SoundEffect = 1 << 8,
 			PlayerFrog = 1 << 9,
 			vehicle = 1 << 10,
+			RiverObject = 1 << 11,
 
 			Aircraft = PlayerAircraft | AlliedAircraft | EnemyAircraft,						// 0000 1110
 			Projectile = AlliedProjectile | EnemyProjectile,								// 0110 0000

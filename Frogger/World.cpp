@@ -19,6 +19,7 @@ These additions and modifications are my sole work for prog 1266
 #include "SoundNode.h"
 #include "Utility.h"
 #include <memory>
+#include "RiverObjects.h"
 
 namespace GEX
 {
@@ -98,8 +99,8 @@ namespace GEX
 	sf::FloatRect World::getBattlefieldBounds() const
 	{
 		sf::FloatRect bounds = getViewBounds();
-		bounds.top -= 20;
-		bounds.width += 20;
+		bounds.left -= 100;
+		bounds.width += 100;
 		return bounds;
 	}
 
@@ -113,7 +114,6 @@ namespace GEX
 			_sceneLayers[Air]->attachChild(std::move(vehicle));
 
 			std::unique_ptr<Vehicle> vehicle1(new Vehicle(Vehicle::Type::RaceCarL));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_countdown += vehicle1->getSpawnInterval();
 			_sceneLayers[Air]->attachChild(std::move(vehicle1));
 
 			std::unique_ptr<Vehicle> vehicle2(new Vehicle(Vehicle::Type::RaceCarR));//(randomInt(int(Vehicle::Type::TypeCount)))));
@@ -124,6 +124,16 @@ namespace GEX
 
 			std::unique_ptr<Vehicle> vehicle4(new Vehicle(Vehicle::Type::Tractor));//(randomInt(int(Vehicle::Type::TypeCount)))));
 			_sceneLayers[Air]->attachChild(std::move(vehicle4));
+
+			std::unique_ptr<RiverObjects> log1(new RiverObjects(RiverObjects::Type::BigLog));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(log1));
+
+			std::unique_ptr<RiverObjects> log2(new RiverObjects(RiverObjects::Type::BigLog2));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(log2));
+
+			std::unique_ptr<RiverObjects> log3(new RiverObjects(RiverObjects::Type::SmallLog));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_countdown += log3->getSpawnInterval();
+			_sceneLayers[Air]->attachChild(std::move(log3));
 
 		}
 		else if (_countdown > sf::Time::Zero)
