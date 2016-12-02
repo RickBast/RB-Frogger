@@ -17,6 +17,9 @@ These additions and modifications are my sole work for prog 1266
 #include "Pickup.h"
 #include "ParticleNode.h"
 #include "SoundNode.h"
+#include "Utility.h"
+#include <memory>
+
 namespace GEX
 {
 	World::World(sf::RenderWindow& window, SoundPlayer& soundPlayer) :
@@ -30,11 +33,12 @@ namespace GEX
 		_spawnPosition(_worldView.getSize().x / 2.f, _worldView.getSize().y - 20.f),
 		_scrollSpeed(-50.f),
 		_playerAircraft(nullptr),
-		_playerFrog(nullptr)
+		_playerFrog(nullptr),
+		_countdown(sf::Time::Zero)
 	{
 
 		buildScene();
-	//	addEnemies();
+	
 
 		// Prepare the view
 		//_worldView.setCenter(_spawnPosition);
@@ -48,20 +52,20 @@ namespace GEX
 		//_worldView.move(0.f, _scrollSpeed * dt.asSeconds());
 		//_playerAircraft->setVelocity(0.f, _scrollSpeed);
 
-		guideMissiles();
+	
 		destroyEntitiesOutsideView();
 
 		// run all the commands
 		while (!_commandQueue.isEmpty())
 			_sceneGraph.onCommand(_commandQueue.pop(), dt);
 
-		handleCollisions();
+		//handleCollisions();
 		_sceneGraph.removeWrecks();
 
-		spawnEnemies();
+		spawnEnemies(dt);
 		// Apply movements
 		_sceneGraph.update(dt, _commandQueue);
-		adaptPlayerPostition();
+		//adaptPlayerPostition();
 	}
 
 	void World::updateSounds()
@@ -76,14 +80,14 @@ namespace GEX
 		   //at least borderDistance units from the border
 
 		sf::FloatRect viewBounds(_worldView.getCenter() - _worldView.getSize() / 2.f, _worldView.getSize());
-		const float borderDistance = 35.f;
+		const float borderDistance = 20.f;
 
-		//sf::Vector2f position = _playerAircraft->getPosition();
-		//position.x = std::max(position.x, viewBounds.left + borderDistance);
-		//position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-		//position.y = std::max(position.y, viewBounds.top + borderDistance);
-		//position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-		//_playerAircraft->setPosition(position);
+		sf::Vector2f position = _playerFrog->getPosition();
+		position.x = std::max(position.x, viewBounds.left + borderDistance);
+		position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+		position.y = std::max(position.y, viewBounds.top + borderDistance);
+		position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+		_playerFrog->setPosition(position);
 	}
 
 	sf::FloatRect World::getViewBounds() const
@@ -94,88 +98,49 @@ namespace GEX
 	sf::FloatRect World::getBattlefieldBounds() const
 	{
 		sf::FloatRect bounds = getViewBounds();
-		bounds.top -= 100;
-		bounds.height += 100;
+		bounds.top -= 20;
+		bounds.width += 20;
 		return bounds;
 	}
 
-	void World::spawnEnemies()
+	void World::spawnEnemies(sf::Time dt)
 	{
-		while (!_enemySpawnPoints.empty() && _enemySpawnPoints.back().y > getBattlefieldBounds().top)
+	
+		if (_countdown <= sf::Time::Zero)
 		{
-			auto spawn = _enemySpawnPoints.back();
-			std::unique_ptr<Aircraft> enemy(new Aircraft(spawn.type));
-			enemy->setPosition(spawn.x, spawn.y);
-			enemy->setRotation(180);
-			_sceneLayers[Air]->attachChild(std::move(enemy));
-			_enemySpawnPoints.pop_back();
+			
+			std::unique_ptr<Vehicle> vehicle(new Vehicle(Vehicle::Type::Car));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(vehicle));
+
+			std::unique_ptr<Vehicle> vehicle1(new Vehicle(Vehicle::Type::RaceCarL));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_countdown += vehicle1->getSpawnInterval();
+			_sceneLayers[Air]->attachChild(std::move(vehicle1));
+
+			std::unique_ptr<Vehicle> vehicle2(new Vehicle(Vehicle::Type::RaceCarR));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(vehicle2));
+
+			std::unique_ptr<Vehicle> vehicle3(new Vehicle(Vehicle::Type::Truck));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(vehicle3));
+
+			std::unique_ptr<Vehicle> vehicle4(new Vehicle(Vehicle::Type::Tractor));//(randomInt(int(Vehicle::Type::TypeCount)))));
+			_sceneLayers[Air]->attachChild(std::move(vehicle4));
+
+		}
+		else if (_countdown > sf::Time::Zero)
+		{
+			_countdown -= dt;
 		}
 	}
 
-	void World::addEnemies()
-	{
-		addEnemy(Aircraft::Type::Raptor, -250.f, -200.f);
-		addEnemy(Aircraft::Type::Raptor, +250.f, -200.f);
-		addEnemy(Aircraft::Type::Raptor, -350.f, -400.f);
-		addEnemy(Aircraft::Type::Raptor, +350.f, -400.f);
+	
 
-		addEnemy(Aircraft::Type::Avenger, -250.f, -800.f);
-		addEnemy(Aircraft::Type::Avenger, +250.f, -800.f);
-		addEnemy(Aircraft::Type::Avenger, -350.f, -900.f);
-		addEnemy(Aircraft::Type::Avenger, +350.f, -900.f);
+	
 
-		std::sort(_enemySpawnPoints.begin(), _enemySpawnPoints.end(), [](SpawnPoint lhs, SpawnPoint rhs) {return lhs.y < rhs.y;});
-	}
 
-	void World::addEnemy(Aircraft::Type type, float _x, float _y)
-	{
-		addEnemy(SpawnPoint(type, _x, _y));
-	}
 
-	void World::addEnemy(SpawnPoint sPoint)
-	{
-		sPoint.x = _spawnPosition.x + sPoint.x;
-		sPoint.y = _spawnPosition.y + sPoint.y;
-		_enemySpawnPoints.push_back(sPoint);
-	}
+	
 
-	void World::guideMissiles()
-	{
-		Command enemyCollector;
-		enemyCollector.category = Category::EnemyAircraft;
-		enemyCollector.action = derivedAction<Aircraft>([this](Aircraft& enemy, sf::Time dt)
-		{
-			if (!enemy.isDestroyed())
-				this->_activeEnemies.push_back(&enemy);
-		});
 
-		Command missileGuider;
-		missileGuider.category = Category::AlliedProjectile;
-		missileGuider.action = derivedAction<Projectile>([this](Projectile& missile, sf::Time dt)
-		{
-			if (!missile.isGuided())
-				return;
-
-			float minDistance = std::numeric_limits<float>::max();
-
-			Aircraft* closestEnemy = nullptr;
-			for (Aircraft* enemy : this->_activeEnemies)
-			{
-				float enemyDistance = distance(missile, *enemy);
-				if (enemyDistance < minDistance)
-				{
-					closestEnemy = enemy;
-					minDistance = enemyDistance;
-				}
-			}
-			if (closestEnemy)
-				missile.guideTowards(closestEnemy->getWorldPosition());
-		});
-
-		_commandQueue.push(enemyCollector);
-		_commandQueue.push(missileGuider);
-		_activeEnemies.clear();
-	}
 
 	void World::handleCollisions()
 	{
@@ -206,8 +171,8 @@ namespace GEX
 				auto& enemy = static_cast<Aircraft&>(*pair.first);
 				auto& projectile = static_cast<Projectile&>(*pair.second);
 
- 			 	enemy.damage(projectile.getHitPoints());
-			 	projectile.destroy();
+				enemy.damage(projectile.getHitPoints());
+				projectile.destroy();
 			}
 
 			if (matchesCategories(pair, Category::PlayerAircraft, Category::Pickups))
@@ -227,7 +192,7 @@ namespace GEX
 	void World::destroyEntitiesOutsideView()
 	{
 		Command command;
-		command.category = Category::Projectile | Category::EnemyAircraft;
+		command.category = Category::vehicle;
 		command.action = derivedAction<Entity>([this](Entity& e, sf::Time) {
 			if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
 				e.destroy();
@@ -293,6 +258,7 @@ namespace GEX
 
 		std::unique_ptr<ParticleNode> fireNode(new ParticleNode(Particle::Type::Propellant));
 		_sceneLayers[Air]->attachChild(std::move(fireNode));*/
+
 
 
 		// Add player's aircraft

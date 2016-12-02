@@ -22,6 +22,7 @@ These additions and modifications are my sole work for prog 1266
 #include "PlayerControl.h"
 #include "SoundPlayer.h"
 #include "Frogger.h"
+#include "Vehicle.h"
 
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Graphics/Texture.hpp"
@@ -33,6 +34,7 @@ These additions and modifications are my sole work for prog 1266
 namespace GEX
 {
 	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
+	class Vehicle;
 	class World
 	{
 	public:
@@ -47,28 +49,16 @@ namespace GEX
 		CommandQueue&                       getCommandQueue();
 
 	private:
-		struct SpawnPoint
-		{
-			SpawnPoint(Aircraft::Type type, float _x, float _y) :
-				type(type),
-				x(_x),
-				y(_y)
-			{}
-			Aircraft::Type		type;
-			float				x;
-			float				y;
-		};
+
 
 	public:
 		void                                buildScene();
 		void                                adaptPlayerPostition();
 		sf::FloatRect						getViewBounds() const;
 		sf::FloatRect						getBattlefieldBounds() const;
-		void								spawnEnemies();
-		void								addEnemies();
-		void								addEnemy(Aircraft::Type type, float _x, float _y);
-		void								addEnemy(SpawnPoint sPoint);
-		void								guideMissiles();
+		void								spawnEnemies(sf::Time dt);
+
+	
 		void								handleCollisions();
 		void								destroyEntitiesOutsideView();
 		bool								hasAlivePlayer() const;
@@ -96,9 +86,9 @@ namespace GEX
 		float                               _scrollSpeed;
 		Aircraft*                           _playerAircraft;
 		Frogger*                            _playerFrog;
-		std::vector<SpawnPoint>				_enemySpawnPoints;
-		std::vector<Aircraft*>				_activeEnemies;
+	
 		SoundPlayer&						_soundPlayer;
+		sf::Time _countdown;
 	};
 
 }

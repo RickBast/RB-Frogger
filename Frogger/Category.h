@@ -29,6 +29,7 @@ namespace GEX
 			ParticleSystem = 1 << 7,	// 1000 0000
 			SoundEffect = 1 << 8,
 			PlayerFrog = 1 << 9,
+			vehicle = 1 << 10,
 
 			Aircraft = PlayerAircraft | AlliedAircraft | EnemyAircraft,						// 0000 1110
 			Projectile = AlliedProjectile | EnemyProjectile,								// 0110 0000
