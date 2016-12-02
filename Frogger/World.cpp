@@ -65,7 +65,7 @@ namespace GEX
 		spawnEnemies(dt);
 		// Apply movements
 		_sceneGraph.update(dt, _commandQueue);
-		//adaptPlayerPostition();
+		adaptPlayerPostition();
 	}
 
 	void World::updateSounds()
