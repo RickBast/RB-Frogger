@@ -39,7 +39,7 @@ namespace GEX
 	{
 
 		buildScene();
-	
+
 
 		// Prepare the view
 		//_worldView.setCenter(_spawnPosition);
@@ -53,14 +53,18 @@ namespace GEX
 		//_worldView.move(0.f, _scrollSpeed * dt.asSeconds());
 		//_playerAircraft->setVelocity(0.f, _scrollSpeed);
 
-	
+
 		destroyEntitiesOutsideView();
 
 		// run all the commands
 		while (!_commandQueue.isEmpty())
 			_sceneGraph.onCommand(_commandQueue.pop(), dt);
 
+		_isOnObject = false;
 		handleCollisions();
+		if (_isOnObject == false && _playerFrog->getPosition().y < 320.f)
+			_playerFrog->setPosition(_spawnPosition);
+
 		_sceneGraph.removeWrecks();
 
 		spawnEnemies(dt);
@@ -106,10 +110,10 @@ namespace GEX
 
 	void World::spawnEnemies(sf::Time dt)
 	{
-	
+
 		if (_countdown <= sf::Time::Zero)
 		{
-			
+
 			std::unique_ptr<Vehicle> vehicle(new Vehicle(Vehicle::Type::Car));//(randomInt(int(Vehicle::Type::TypeCount)))));
 			_sceneLayers[Background]->attachChild(std::move(vehicle));
 
@@ -149,18 +153,19 @@ namespace GEX
 		}
 	}
 
-	
-
-	
 
 
 
-	
+
+
+
+
 
 
 
 	void World::handleCollisions()
 	{
+		_playerFrog->setVelocity(0, 0);
 		std::set<SceneNode::Pair> collisionsPairs;
 		_sceneGraph.checkSceneCollision(_sceneGraph, collisionsPairs);
 		for (SceneNode::Pair pair : collisionsPairs)
@@ -171,31 +176,34 @@ namespace GEX
 				auto& enemy = static_cast<Vehicle&>(*pair.second);
 
 				player.setPosition(_spawnPosition);
-				
+
 			}
 
 			if (matchesCategories(pair, Category::PlayerFrog, Category::RiverObject))
 			{
 				auto& player = static_cast<Frogger&>(*pair.first);
 				auto& enemy = static_cast<RiverObjects&>(*pair.second);
-
-				player.setVelocity(enemy.getMaxSpeed(),0);
-
+				player.setVelocity(enemy.getMaxSpeed(), 0);
+				_isOnObject = true;
 			}
+			else _isOnObject = false;
+
+
 		}
 	}
-	
-	
+
+
 
 	void World::destroyEntitiesOutsideView()
 	{
 		Command command;
-		command.category = Category::vehicle;
+		command.category = Category::objects;
 		command.action = derivedAction<Entity>([this](Entity& e, sf::Time) {
 			if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
 				e.destroy();
 		});
 		_commandQueue.push(command);
+
 	}
 
 	bool World::hasAlivePlayer() const
@@ -237,17 +245,17 @@ namespace GEX
 		// Add the background sprite to the scene
 		std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
 		backgroundSprite->setPosition(_worldBounds.left, _worldBounds.top);
-		_sceneLayers[Background]->attachChild(std::move(backgroundSprite));	
-		
+		_sceneLayers[Background]->attachChild(std::move(backgroundSprite));
+
 
 		//sf::Texture& finishlineTexture = TextureHolder::getInstance().get(TextureID::FinishLine);
 		//sf::IntRect textureRect2(0, 0, finishlineTexture.getSize().x, finishlineTexture.getSize().y);
-	
+
 		// Add the background sprite to the scene
 	/*	std::unique_ptr<SpriteNode> finishLineSprite(new SpriteNode(finishlineTexture, textureRect2));
 		finishLineSprite->setPosition(_worldBounds.left, _worldBounds.top + 800.f);
 		_sceneLayers[Air]->attachChild(std::move(finishLineSprite));*/
-	
+
 
 
 		//particle system

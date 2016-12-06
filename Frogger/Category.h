@@ -32,6 +32,7 @@ namespace GEX
 			vehicle = 1 << 10,
 			RiverObject = 1 << 11,
 
+			objects = RiverObject | vehicle,
 			Aircraft = PlayerAircraft | AlliedAircraft | EnemyAircraft,						// 0000 1110
 			Projectile = AlliedProjectile | EnemyProjectile,								// 0110 0000
 			ThingsPlayerCollidesWith = EnemyAircraft | EnemyProjectile | Pickups,			// 0101 1000
