@@ -173,6 +173,15 @@ namespace GEX
 				player.setPosition(_spawnPosition);
 				
 			}
+
+			if (matchesCategories(pair, Category::PlayerFrog, Category::RiverObject))
+			{
+				auto& player = static_cast<Frogger&>(*pair.first);
+				auto& enemy = static_cast<RiverObjects&>(*pair.second);
+
+				player.setVelocity(enemy.getMaxSpeed(),0);
+
+			}
 		}
 	}
 	
