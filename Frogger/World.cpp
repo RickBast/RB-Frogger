@@ -60,7 +60,7 @@ namespace GEX
 		while (!_commandQueue.isEmpty())
 			_sceneGraph.onCommand(_commandQueue.pop(), dt);
 
-		//handleCollisions();
+		handleCollisions();
 		_sceneGraph.removeWrecks();
 
 		spawnEnemies(dt);
@@ -99,8 +99,8 @@ namespace GEX
 	sf::FloatRect World::getBattlefieldBounds() const
 	{
 		sf::FloatRect bounds = getViewBounds();
-		bounds.left -= 200;
-		bounds.width += 200;
+		bounds.left -= 100;
+		bounds.width += 100;
 		return bounds;
 	}
 
@@ -111,35 +111,35 @@ namespace GEX
 		{
 			
 			std::unique_ptr<Vehicle> vehicle(new Vehicle(Vehicle::Type::Car));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(vehicle));
+			_sceneLayers[Background]->attachChild(std::move(vehicle));
 
 			std::unique_ptr<Vehicle> vehicle1(new Vehicle(Vehicle::Type::RaceCarL));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(vehicle1));
+			_sceneLayers[Background]->attachChild(std::move(vehicle1));
 
 			std::unique_ptr<Vehicle> vehicle2(new Vehicle(Vehicle::Type::RaceCarR));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(vehicle2));
+			_sceneLayers[Background]->attachChild(std::move(vehicle2));
 
 			std::unique_ptr<Vehicle> vehicle3(new Vehicle(Vehicle::Type::Truck));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(vehicle3));
+			_sceneLayers[Background]->attachChild(std::move(vehicle3));
 
 			std::unique_ptr<Vehicle> vehicle4(new Vehicle(Vehicle::Type::Tractor));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(vehicle4));
+			_sceneLayers[Background]->attachChild(std::move(vehicle4));
 
 			std::unique_ptr<RiverObjects> log1(new RiverObjects(RiverObjects::Type::BigLog));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(log1));
+			_sceneLayers[Background]->attachChild(std::move(log1));
 
 			std::unique_ptr<RiverObjects> log2(new RiverObjects(RiverObjects::Type::BigLog2));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(log2));
+			_sceneLayers[Background]->attachChild(std::move(log2));
 
 			std::unique_ptr<RiverObjects> log3(new RiverObjects(RiverObjects::Type::SmallLog));//(randomInt(int(Vehicle::Type::TypeCount)))));
 			_countdown += log3->getSpawnInterval();
-			_sceneLayers[Air]->attachChild(std::move(log3));
+			_sceneLayers[Background]->attachChild(std::move(log3));
 
 			std::unique_ptr<RiverObjects> Turtles3(new RiverObjects(RiverObjects::Type::Threeturtles));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(Turtles3));
+			_sceneLayers[Background]->attachChild(std::move(Turtles3));
 
 			std::unique_ptr<RiverObjects> Turtles2(new RiverObjects(RiverObjects::Type::TwoTurtles));//(randomInt(int(Vehicle::Type::TypeCount)))));
-			_sceneLayers[Air]->attachChild(std::move(Turtles2));
+			_sceneLayers[Background]->attachChild(std::move(Turtles2));
 
 
 		}
@@ -165,41 +165,13 @@ namespace GEX
 		_sceneGraph.checkSceneCollision(_sceneGraph, collisionsPairs);
 		for (SceneNode::Pair pair : collisionsPairs)
 		{
-			if (matchesCategories(pair, Category::PlayerAircraft, Category::EnemyAircraft))
+			if (matchesCategories(pair, Category::PlayerFrog, Category::vehicle))
 			{
-				auto& player = static_cast<Aircraft&>(*pair.first);
-				auto& enemy = static_cast<Aircraft&>(*pair.second);
+				auto& player = static_cast<Frogger&>(*pair.first);
+				auto& enemy = static_cast<Vehicle&>(*pair.second);
 
-				player.damage(enemy.getHitPoints());
-				enemy.destroy();
-			}
-
-			if (matchesCategories(pair, Category::PlayerAircraft, Category::EnemyProjectile))
-			{
-				auto& player = static_cast<Aircraft&>(*pair.first);
-				auto& projectile = static_cast<Projectile&>(*pair.second);
-
-				player.damage(projectile.getHitPoints());
-				projectile.destroy();
-			}
-
-			if (matchesCategories(pair, Category::EnemyAircraft, Category::AlliedProjectile))
-			{
-				auto& enemy = static_cast<Aircraft&>(*pair.first);
-				auto& projectile = static_cast<Projectile&>(*pair.second);
-
-				enemy.damage(projectile.getHitPoints());
-				projectile.destroy();
-			}
-
-			if (matchesCategories(pair, Category::PlayerAircraft, Category::Pickups))
-			{
-				auto& player = static_cast<Aircraft&>(*pair.first);
-				auto& pickup = static_cast<Pickup&>(*pair.second);
-
-				pickup.apply(player);
-				pickup.destroy();
-				player.playLocalSound(_commandQueue, SoundEffectID::CollectPickup);
+				player.setPosition(_spawnPosition);
+				
 			}
 		}
 	}
