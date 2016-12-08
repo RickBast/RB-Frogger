@@ -16,7 +16,7 @@ These additions and modifications are my sole work for prog 1266
 #include "Aircraft.h"
 #include "Category.h"
 #include "Frogger.h"
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include "Animation2.h"
 
 namespace GEX

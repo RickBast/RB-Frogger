@@ -14,7 +14,7 @@ These additions and modifications are my sole work for prog 1266
 */
 #pragma once
 #include "SceneNode.h"
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include "CommandQueue.h"
 namespace GEX
 {

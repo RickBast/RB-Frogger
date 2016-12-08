@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ResourceIdentifiers.h"
-#include <SFML\audio/Music.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <map>
 #include <string>
 namespace GEX

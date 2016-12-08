@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 #include "Category.h"
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include <map>
 #include "TextureHolder.h"
 #include "CommandQueue.h"

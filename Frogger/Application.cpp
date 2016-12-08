@@ -24,7 +24,7 @@ These additions and modifications are my sole work for prog 1266
 #include "FontHolder.h"
 #include "GEXState.h"
 #include "GameOverState.h"
-#include "SFML\Audio.hpp"
+#include "SFML/Audio.hpp"
 
 
 namespace GEX

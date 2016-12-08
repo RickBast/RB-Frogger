@@ -1,5 +1,5 @@
 #pragma once
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include "TextureHolder.h"
 #include "Entity.h"
 #include "Particle.h"

@@ -14,7 +14,7 @@ These additions and modifications are my sole work for prog 1266
 */
 #pragma once
 #include <cmath>
-#include <SFML\System\Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 #include "Animation.h"
 
 
@@ -30,9 +30,9 @@ namespace GEX
 	void				centerOrigin(sf::Text& text);
 	void				centerOrigin(Animation& animation);
 
-	const float			M_PI = 3.14159265f;
-	inline float		degreesToRadians(float degrees) { return degrees * M_PI / 180.f; }
-	inline float		radiansToDegrees(float rads) { return rads  * 180.f / M_PI; }
+	const float			PI = 3.14159265f;
+	inline float		degreesToRadians(float degrees) { return degrees * PI / 180.f; }
+	inline float		radiansToDegrees(float rads) { return rads  * 180.f / PI; }
 	inline float		sin(float deg) { return std::sin(degreesToRadians(deg)); }
 	inline float		cos(float deg) { return std::cos(degreesToRadians(deg)); }
 	
