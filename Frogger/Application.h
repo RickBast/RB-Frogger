@@ -51,7 +51,7 @@ namespace GEX
 
 		StateStack              _stateStack;
 
-		sf::Text                _statsText;
+		//sf::Text                _statsText;
 	};
 }
 

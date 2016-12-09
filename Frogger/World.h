@@ -90,6 +90,7 @@ namespace GEX
 		SoundPlayer&						_soundPlayer;
 		sf::Time _countdown;
 		bool _isOnObject;
+
 	};
 
 }

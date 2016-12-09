@@ -22,7 +22,7 @@ namespace GEX
 	Direction::Direction(float a, float d) : angle(a), distance(d)
 	{}
 
-	std::map<Aircraft::Type, AircraftData> GEX::initializeAircraftData()
+	std::map<Aircraft::Type, AircraftData> initializeAircraftData()
 	{
 		std::map<Aircraft::Type, AircraftData> data;
 
@@ -57,7 +57,7 @@ namespace GEX
 
 	}
 
-	std::map<Projectile::Type, ProjectileData> GEX::initializeProjectileData()
+	std::map<Projectile::Type, ProjectileData> initializeProjectileData()
 	{
 		std::map<Projectile::Type, ProjectileData> data;
 
@@ -91,7 +91,7 @@ namespace GEX
 		return data;
 	}
 
-	std::map<Pickup::Type, PickupData> GEX::initializePickupData()
+	std::map<Pickup::Type, PickupData> initializePickupData()
 	{
 		std::map<Pickup::Type, PickupData> data;
 
@@ -114,7 +114,7 @@ namespace GEX
 		return data;
 	}
 
-	std::map<Vehicle::Type, VehicleData> GEX::initializeVehicleData()
+	std::map<Vehicle::Type, VehicleData> initializeVehicleData()
 	{
 		std::map<Vehicle::Type, VehicleData> data;
 
@@ -152,7 +152,7 @@ namespace GEX
 		return data;
 	}
 
-	std::map<RiverObjects::Type, RiverObjectData> GEX::initializeRiverObjectData()
+	std::map<RiverObjects::Type, RiverObjectData> initializeRiverObjectData()
 	{
 		std::map<RiverObjects::Type, RiverObjectData> data;
 

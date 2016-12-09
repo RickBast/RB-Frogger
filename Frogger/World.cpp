@@ -20,6 +20,8 @@ These additions and modifications are my sole work for prog 1266
 #include "Utility.h"
 #include <memory>
 #include "RiverObjects.h"
+#include "StringHelpers.h"
+#include "FontHolder.h"
 
 namespace GEX
 {
@@ -36,6 +38,7 @@ namespace GEX
 		_playerAircraft(nullptr),
 		_playerFrog(nullptr),
 		_countdown(sf::Time::Zero)
+
 	{
 
 		buildScene();
@@ -64,6 +67,10 @@ namespace GEX
 		handleCollisions();
 		if (_isOnObject == false && _playerFrog->getPosition().y < 320.f)
 			_playerFrog->setPosition(_spawnPosition);
+
+	
+
+
 
 		_sceneGraph.removeWrecks();
 
@@ -220,6 +227,7 @@ namespace GEX
 	{
 		_window.setView(_worldView);
 		_window.draw(_sceneGraph);
+		
 	}
 
 	CommandQueue&  World::getCommandQueue()
@@ -278,6 +286,9 @@ namespace GEX
 
 		std::unique_ptr<SoundNode> soundEffectNode(new SoundNode(_soundPlayer));
 		_sceneGraph.attachChild(std::move(soundEffectNode));
+
+
+
 	}
 
 	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)

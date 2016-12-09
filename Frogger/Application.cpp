@@ -33,8 +33,8 @@ namespace GEX
 	Application::Application() :
 		_window(sf::VideoMode(480, 600), "Frogger", sf::Style::Close),
 		_player(),
-		_stateStack(State::Context(_window, _player, _music, _soundPlayer)),
-		_statsText()
+		_stateStack(State::Context(_window, _player, _music, _soundPlayer))
+		//_statsText()
 	{
 		_window.setKeyRepeatEnabled(false);
 
@@ -51,9 +51,9 @@ namespace GEX
 		TextureHolder::getInstance().load(TextureID::Background, "../Media/Textures/Background.png");
 		TextureHolder::getInstance().load(TextureID::FrogAtlas, "../Media/Textures/FroggerAtlas.png");
 
-		_statsText.setFont(FontHolder::getInstance().get(FontID::Main));
+		/*_statsText.setFont(FontHolder::getInstance().get(FontID::Main));
 		_statsText.setPosition(5.f, 5.f);
-		_statsText.setCharacterSize(10u);
+		_statsText.setCharacterSize(10u);*/
 		registerStates();
 		_stateStack.pushState(StateID::Title);
 	}
@@ -79,7 +79,7 @@ namespace GEX
 					_window.close();
 			}
 
-			updateStatistics(dt);
+			//updateStatistics(dt);
 			render();
 		}
 	}
@@ -107,29 +107,29 @@ namespace GEX
 		_stateStack.draw();
 
 		_window.setView(_window.getDefaultView());
-		_window.draw(_statsText);
+		//_window.draw(_statsText);
 
 		_window.display();
 	}
 
-	void Application::updateStatistics(sf::Time dt)
-	{
-		//_statisticsUpdateTime += dt;
-		static sf::Time updateTime = sf::Time::Zero;
-		static int  numFrames = 0;
+	//void Application::updateStatistics(sf::Time dt)
+	//{
+	//	//_statisticsUpdateTime += dt;
+	//	static sf::Time updateTime = sf::Time::Zero;
+	//	static int  numFrames = 0;
 
-		updateTime += dt;
-		numFrames += 1;
-		if (updateTime >= sf::seconds(1.0f))
-		{
-			_statsText.setString(
-				"Frames / Second = " + std::to_string(numFrames) + "\n" +
-				"Time / Update = " + std::to_string(updateTime.asMicroseconds() / numFrames) + "us");
+	//	updateTime += dt;
+	//	numFrames += 1;
+	//	if (updateTime >= sf::seconds(1.0f))
+	//	{
+	//		_statsText.setString(
+	//			"Frames / Second = " + std::to_string(numFrames) + "\n" +
+	//			"Time / Update = " + std::to_string(updateTime.asMicroseconds() / numFrames) + "us");
 
-			updateTime -= sf::seconds(1.0f);
-			numFrames = 0;
-		}
-	}
+	//		updateTime -= sf::seconds(1.0f);
+	//		numFrames = 0;
+	//	}
+	//}
 
 	void Application::registerStates()
 	{
