@@ -18,11 +18,9 @@ These additions and modifications are my sole work for prog 1266
 namespace GEX
 {
 
-	State::Context::Context(sf::RenderWindow& window, PlayerControl& player, MusicPlayer& music, SoundPlayer& soundEffect) :
+	State::Context::Context(sf::RenderWindow& window, PlayerControl& player) :
 		window(&window),
-		player(&player),
-		music(&music),
-		soundEffects(&soundEffect)
+		player(&player)
 	{}
 
 	State::State(StateStack& stack, Context context) :

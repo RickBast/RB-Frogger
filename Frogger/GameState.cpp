@@ -14,8 +14,7 @@ These additions and modifications are my sole work for prog 1266
 */
 #include "GameState.h"
 #include "Utility.h"
-#include "MusicPlayer.h"
-#include "SoundPlayer.h"
+
 
 
 
@@ -24,10 +23,9 @@ namespace GEX
 
 	GameState::GameState(StateStack& stack, Context context) :
 		State(stack, context),
-		_world(*context.window, *context.soundEffects),
+		_world(*context.window),
 		_player(*context.player)
 	{
-		context.music->play(MusicID::MissionTheme);
 	}
 
 	void GameState::draw()

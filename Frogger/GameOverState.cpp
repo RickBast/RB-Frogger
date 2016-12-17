@@ -1,5 +1,5 @@
 /**
-@file PauseState.cpp
+@file GameOverState.cpp
 @author  R Bastarache <rick_hockey8@hotmail.com>
 @version 1.0
 

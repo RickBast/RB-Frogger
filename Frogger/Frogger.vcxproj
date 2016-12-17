@@ -131,17 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Aircraft.cpp" />
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Animation2.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="DataTables.cpp" />
-    <ClCompile Include="EmmitterNode.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FontHolder.cpp" />
     <ClCompile Include="Frogger.cpp" />
@@ -149,19 +145,11 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GEXState.cpp" />
     <ClCompile Include="JsonFrameParser.cpp" />
-    <ClCompile Include="Label.cpp" />
     <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="MusicPlayer.cpp" />
-    <ClCompile Include="ParticleNode.cpp" />
     <ClCompile Include="PauseState.cpp" />
-    <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
-    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RiverObjects.cpp" />
     <ClCompile Include="SceneNode.cpp" />
-    <ClCompile Include="SoundBufferHolder.cpp" />
-    <ClCompile Include="SoundNode.cpp" />
-    <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpriteNode.cpp" />
     <ClCompile Include="State.cpp" />
@@ -174,19 +162,14 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Aircraft.h" />
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Animation2.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="Category.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandQueue.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="DataTables.h" />
-    <ClInclude Include="DemoNode.h" />
-    <ClInclude Include="EmmitterNode.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FontHolder.h" />
     <ClInclude Include="Frogger.h" />
@@ -195,21 +178,12 @@
     <ClInclude Include="GEXState.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonFrameParser.hpp" />
-    <ClInclude Include="Label.h" />
     <ClInclude Include="MenuState.h" />
-    <ClInclude Include="MusicPlayer.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleNode.h" />
     <ClInclude Include="PauseState.h" />
-    <ClInclude Include="Pickup.h" />
     <ClInclude Include="PlayerControl.h" />
-    <ClInclude Include="Projectile.h" />
     <ClInclude Include="ResourceIdentifiers.h" />
     <ClInclude Include="RiverObjects.h" />
     <ClInclude Include="SceneNode.h" />
-    <ClInclude Include="SoundBufferHolder.h" />
-    <ClInclude Include="SoundNode.h" />
-    <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="SpriteNode.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateIdentifiers.h" />

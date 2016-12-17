@@ -17,10 +17,10 @@ These additions and modifications are my sole work for prog 1266
 #include "TextureHolder.h"
 #include "SceneNode.h"
 #include "SpriteNode.h"
-#include "Aircraft.h"
+
 #include "CommandQueue.h"
 #include "PlayerControl.h"
-#include "SoundPlayer.h"
+
 #include "Frogger.h"
 #include "Vehicle.h"
 
@@ -39,12 +39,12 @@ namespace GEX
 	{
 	public:
 
-		explicit                            World(sf::RenderWindow& window, SoundPlayer& soundPlayer);
+		explicit                            World(sf::RenderWindow& window);
 											World(const World&) = delete;
 		World&                              operator =(const World&) = delete;
 
 		void                                update(sf::Time dt);
-		void								updateSounds();
+	
 		void                                draw();
 		CommandQueue&                       getCommandQueue();
 
@@ -56,20 +56,19 @@ namespace GEX
 		void                                adaptPlayerPostition();
 		sf::FloatRect						getViewBounds() const;
 		sf::FloatRect						getBattlefieldBounds() const;
-		void								spawnEnemies(sf::Time dt);
+		void								spawnObjects(sf::Time dt);
 
 	
 		void								handleCollisions();
 		void								destroyEntitiesOutsideView();
 		bool								hasAlivePlayer() const;
-		bool								hasReachedFinish() const;
 		
 
 	private:
 		enum Layer
 		{
 			Background,
-			Air,
+			Ground,
 			LayerCount
 		};
 
@@ -84,12 +83,12 @@ namespace GEX
 		sf::FloatRect                       _worldBounds;
 		sf::Vector2f                        _spawnPosition;
 		float                               _scrollSpeed;
-		Aircraft*                           _playerAircraft;
+
 		Frogger*                            _playerFrog;
 	
-		SoundPlayer&						_soundPlayer;
-		sf::Time _countdown;
-		bool _isOnObject;
+
+		sf::Time							_countdown;
+		bool								_isOnObject;
 
 	};
 

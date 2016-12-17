@@ -10,155 +10,85 @@ These additions and modifications are my sole work for prog 1266
 
 @section DESCRIPTION
 
-
 */
 
 #include "Animation.h"
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Texture.hpp>
 
-namespace GEX
-{
+#include <cassert>
 
-	Animation::Animation() :
-		_sprite(),
-		_frameSize(),
-		_numFrames(0),
+
+namespace GEX {
+
+
+	Animation::Animation(bool repeat) :
 		_currentFrame(0),
-		_duration(sf::Time::Zero),
 		_elapsedTime(sf::Time::Zero),
-		_repeat(false)
+		_duration(sf::Time::Zero),
+		_repeat(repeat)
 	{}
 
-	Animation::Animation(const sf::Texture& texture) :
-		_sprite(texture),
-		_frameSize(),
-		_numFrames(0),
-		_currentFrame(0),
-		_duration(sf::Time::Zero),
-		_elapsedTime(sf::Time::Zero),
-		_repeat(false)
+
+	Animation::~Animation()
 	{}
 
-	void Animation::setTexture(const sf::Texture& texture)
+	void Animation::addFrame(const Frame& frame)
 	{
-		_sprite.setTexture(texture);
+		_frames.push_back(frame);
 	}
 
-	const sf::Texture* Animation::getTexture() const
+    void Animation::addFrameSet(const std::vector<Frame> frames)
+    {
+        _frames = frames;
+        
+    }
+	void Animation::setDurationAsSeconds(float d)
 	{
-		return _sprite.getTexture();
+		_duration = sf::seconds(d);
 	}
 
-	void Animation::setFrameSize(sf::Vector2i frameSize)
+	void Animation::start()
 	{
-		_frameSize = frameSize;
-	}
-
-	sf::Vector2i Animation::getFrameSize() const
-	{
-		return _frameSize;
-	}
-
-	void Animation::setNumFrames(std::size_t numFrames)
-	{
-		_numFrames = numFrames;
-	}
-
-	std::size_t Animation::getNumFrames() const
-	{
-		return _numFrames;
-	}
-
-	void Animation::setDuration(sf::Time duration)
-	{
-		_duration = duration;
-	}
-
-	sf::Time Animation::getDuration() const
-	{
-		return _duration;
-	}
-
-	void Animation::setRepeating(bool flag)
-	{
-		_repeat = flag;
-	}
-
-	bool Animation::isRepeating() const
-	{
-		return _repeat;
-	}
-
-	void Animation::restart()
-	{
+		assert(_frames.size() > 0);
 		_currentFrame = 0;
+		_elapsedTime = sf::Time::Zero;
 	}
 
-	bool Animation::isFinished() const
+	int Animation::getNumberOfFrames() const
 	{
-		return _currentFrame >= _numFrames;
+		return _frames.size();
 	}
 
-	sf::FloatRect Animation::getLocalBounds() const
+	Frame Animation::getFrameByNumber(int n) const
 	{
-		return sf::FloatRect(getOrigin(), static_cast<sf::Vector2f>(getFrameSize()));
+		return _frames[n];
 	}
 
-	sf::FloatRect Animation::getGlobalBounds() const
+	Frame Animation::getCurrentFrame() const
 	{
-		return getTransform().transformRect(getLocalBounds());
+		assert(_currentFrame < _frames.size());
+		return _frames[_currentFrame];
 	}
 
-	void Animation::update(sf::Time dt)
+	Frame Animation::update(sf::Time dt)
 	{
-		sf::Time timePerFrame = _duration / static_cast<float>(_numFrames);
+		if (getNumberOfFrames() == 1)			// optimizaion for single frame
+			return _frames[_currentFrame];
+
+		sf::Time  timePerFrame = _duration / static_cast<float>(_frames.size());
 		_elapsedTime += dt;
 
-		sf::Vector2i textureBounds(_sprite.getTexture()->getSize());
-		sf::IntRect textureRect = _sprite.getTextureRect();
-
-		if (_currentFrame == 0)
-			textureRect = sf::IntRect(0, 0, _frameSize.x, _frameSize.y);
-
-		// While we have a frame to process
-		while (_elapsedTime >= timePerFrame && (_currentFrame <= _numFrames || _repeat))
+		while (_elapsedTime >= timePerFrame && _currentFrame < _frames.size())
 		{
-			// Move the texture rect left
-			textureRect.left += textureRect.width;
-
-			// If we reach the end of the texture
-			if (textureRect.left + textureRect.width > textureBounds.x)
-			{
-				// Move it down one line
-				textureRect.left = 0;
-				textureRect.top += textureRect.height;
-			}
-
-			// And progress to next frame
-			_elapsedTime -= timePerFrame;
+			++_currentFrame;
 			if (_repeat)
-			{
-				_currentFrame = (_currentFrame + 1) % _numFrames;
+				_currentFrame %= _frames.size();
 
-				if (_currentFrame == 0)
-					textureRect = sf::IntRect(0, 0, _frameSize.x, _frameSize.y);
-			}
-			else
-			{
-				_currentFrame++;
-			}
+			_elapsedTime -= timePerFrame;
 		}
 
-		_sprite.setTextureRect(textureRect);
+		if (_currentFrame >= _frames.size())
+			_currentFrame = _frames.size() - 1;		// be safe
+
+		return _frames[_currentFrame];
 	}
-
-	void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		states.transform *= getTransform();
-		target.draw(_sprite, states);
-	}
-
-
-
 }

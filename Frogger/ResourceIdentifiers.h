@@ -19,41 +19,13 @@ namespace GEX
 		Main
 	};
 
-	enum class SoundEffectID
-	{
-		AlliedGunfire,
-		EnemyGunfire,
-		Explosion1,
-		Explosion2,
-		LaunchMissile,
-		CollectPickup,
-		Button,
-	};
 
 
 	enum class TextureID {
-		Eagle,
-		Raptor,
-		Avenger,
-		Desert,
-		Jungle,
-		Airplane,
-		Missile,
-		Bullet,
+
 		TitleScreen,
 		MenuScreen,
-		ButtonNormal,
-		ButtonPressed,
-		ButtonSelected,
 		GEXTexture,
-		FireRate,
-		FireSpread,
-		HealthRefill,
-		RefillMissiles,
-		Particle,
-		Atlas,
-		Explosion,
-		FinishLine,
 		Background,
 		FrogAtlas
 	};

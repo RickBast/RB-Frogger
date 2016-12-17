@@ -14,9 +14,6 @@ These additions and modifications are my sole work for prog 1266
 */
 #include "World.h"
 #include <algorithm>
-#include "Pickup.h"
-#include "ParticleNode.h"
-#include "SoundNode.h"
 #include "Utility.h"
 #include <memory>
 #include "RiverObjects.h"
@@ -25,9 +22,8 @@ These additions and modifications are my sole work for prog 1266
 
 namespace GEX
 {
-	World::World(sf::RenderWindow& window, SoundPlayer& soundPlayer) :
+	World::World(sf::RenderWindow& window) :
 		_window(window),
-		_soundPlayer(soundPlayer),
 		_worldView(window.getDefaultView()),
 		_sceneGraph(),
 		_sceneLayers(),
@@ -35,28 +31,17 @@ namespace GEX
 		_worldBounds(0, 0, _worldView.getSize().x, _worldView.getSize().y),
 		_spawnPosition(_worldView.getSize().x / 2.f, _worldView.getSize().y - 20.f),
 		_scrollSpeed(-50.f),
-		_playerAircraft(nullptr),
 		_playerFrog(nullptr),
 		_countdown(sf::Time::Zero)
 
 	{
-
 		buildScene();
-
-
-		// Prepare the view
-		//_worldView.setCenter(_spawnPosition);
 	}
 
 	void World::update(sf::Time dt)
 	{
 
-		updateSounds();
-		// Scroll the world
-		//_worldView.move(0.f, _scrollSpeed * dt.asSeconds());
-		//_playerAircraft->setVelocity(0.f, _scrollSpeed);
-
-
+	
 		destroyEntitiesOutsideView();
 
 		// run all the commands
@@ -64,27 +49,20 @@ namespace GEX
 			_sceneGraph.onCommand(_commandQueue.pop(), dt);
 
 		_isOnObject = false;
-		handleCollisions();
-		if (_isOnObject == false && _playerFrog->getPosition().y < 320.f)
-			_playerFrog->setPosition(_spawnPosition);
-
-	
-
-
 
 		_sceneGraph.removeWrecks();
 
-		spawnEnemies(dt);
+		spawnObjects(dt);
 		// Apply movements
 		_sceneGraph.update(dt, _commandQueue);
 		adaptPlayerPostition();
+
+		handleCollisions();
+
+		if (_isOnObject == false && _playerFrog->getPosition().y < 320.f)
+			_playerFrog->setPosition(_spawnPosition);
 	}
 
-	void World::updateSounds()
-	{
-		_soundPlayer.setListenerPosition(_playerAircraft->getWorldPosition());
-		_soundPlayer.removeStoppedSounds();
-	}
 
 	void World::adaptPlayerPostition()
 	{
@@ -115,7 +93,7 @@ namespace GEX
 		return bounds;
 	}
 
-	void World::spawnEnemies(sf::Time dt)
+	void World::spawnObjects(sf::Time dt)
 	{
 
 		if (_countdown <= sf::Time::Zero)
@@ -172,7 +150,6 @@ namespace GEX
 
 	void World::handleCollisions()
 	{
-		_playerFrog->setVelocity(0, 0);
 		std::set<SceneNode::Pair> collisionsPairs;
 		_sceneGraph.checkSceneCollision(_sceneGraph, collisionsPairs);
 		for (SceneNode::Pair pair : collisionsPairs)
@@ -215,13 +192,9 @@ namespace GEX
 
 	bool World::hasAlivePlayer() const
 	{
-		return !_playerAircraft->isMarkedForRemoval();
+		return true;
 	}
 
-	bool World::hasReachedFinish() const
-	{
-		return _worldBounds.contains(_playerAircraft->getPosition().x, _playerAircraft->getPosition().y - 800.f);
-	}
 
 	void World::draw()
 	{
@@ -240,7 +213,7 @@ namespace GEX
 		// Put the layer nodes into the scene graph
 		for (std::size_t i = 0; i < LayerCount; ++i)
 		{
-			Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
+			Category::Type category = (i == Ground) ? Category::SceneGroundLayer : Category::None;
 			SceneNode::Ptr layer(new SceneNode(category));
 			_sceneLayers[i] = layer.get();
 			_sceneGraph.attachChild(std::move(layer));
@@ -256,39 +229,14 @@ namespace GEX
 		_sceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
 
-		//sf::Texture& finishlineTexture = TextureHolder::getInstance().get(TextureID::FinishLine);
-		//sf::IntRect textureRect2(0, 0, finishlineTexture.getSize().x, finishlineTexture.getSize().y);
+		
 
-		// Add the background sprite to the scene
-	/*	std::unique_ptr<SpriteNode> finishLineSprite(new SpriteNode(finishlineTexture, textureRect2));
-		finishLineSprite->setPosition(_worldBounds.left, _worldBounds.top + 800.f);
-		_sceneLayers[Air]->attachChild(std::move(finishLineSprite));*/
-
-
-
-		//particle system
-	/*	std::unique_ptr<ParticleNode> smokeNode(new ParticleNode(Particle::Type::Smoke));
-		_sceneLayers[Air]->attachChild(std::move(smokeNode));
-
-		std::unique_ptr<ParticleNode> fireNode(new ParticleNode(Particle::Type::Propellant));
-		_sceneLayers[Air]->attachChild(std::move(fireNode));*/
-
-
-
-		// Add player's aircraft
+		// Add player's frog
 		std::unique_ptr<Frogger> leader(new Frogger());
 		_playerFrog = leader.get();
 		_playerFrog->setPosition(_spawnPosition);
 		_playerFrog->setVelocity(0.f, 0.f);
-		_sceneLayers[Air]->attachChild(std::move(leader));
-
-		// add SoundNode
-
-		std::unique_ptr<SoundNode> soundEffectNode(new SoundNode(_soundPlayer));
-		_sceneGraph.attachChild(std::move(soundEffectNode));
-
-
-
+		_sceneLayers[Ground]->attachChild(std::move(leader));
 	}
 
 	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)

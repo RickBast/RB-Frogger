@@ -13,25 +13,14 @@ These additions and modifications are my sole work for prog 1266
 
 */
 #include "PlayerControl.h"
-#include "Aircraft.h"
 #include "Category.h"
 #include "Frogger.h"
 #include "SFML/Graphics.hpp"
-#include "Animation2.h"
+#include "Animation.h"
 
 namespace GEX
 {
-	struct AircraftMover
-	{
-		AircraftMover(float vx, float vy) : velocity(vx, vy)
-		{}
-		void operator()(Aircraft& aircraft, sf::Time dt)const
-		{
-			aircraft.accelerate(velocity);
-		}
-		sf::Vector2f velocity;
-		sf::Sprite _sprite;
-	};
+
 
 	struct FroggerMover
 	{

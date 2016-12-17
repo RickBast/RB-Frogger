@@ -16,7 +16,7 @@ These additions and modifications are my sole work for prog 1266
 #include "Utility.h"
 #include "TextureHolder.h"
 #include "FontHolder.h"
-#include "MusicPlayer.h"
+
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/View.hpp"
@@ -50,7 +50,6 @@ namespace GEX
 		exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
 		_options.push_back(exitOption);
 
-		context.music->play(MusicID::MenuTheme);
 
 		updateOptionText();
 	}

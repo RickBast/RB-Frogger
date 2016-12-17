@@ -15,7 +15,6 @@ These additions and modifications are my sole work for prog 1266
 #pragma once
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
-#include "Animation.h"
 
 
 namespace sf
@@ -28,18 +27,9 @@ namespace GEX
 {
 	void				centerOrigin(sf::Sprite& sprite);
 	void				centerOrigin(sf::Text& text);
-	void				centerOrigin(Animation& animation);
-
-	const float			PI = 3.14159265f;
-	inline float		degreesToRadians(float degrees) { return degrees * PI / 180.f; }
-	inline float		radiansToDegrees(float rads) { return rads  * 180.f / PI; }
-	inline float		sin(float deg) { return std::sin(degreesToRadians(deg)); }
-	inline float		cos(float deg) { return std::cos(degreesToRadians(deg)); }
-	
-	inline float		arctan2(float opp, float adj) {return radiansToDegrees(std::atan2(opp, adj));}
 
 	int					randomInt(int exclusiveMax);
 
 	float				length(sf::Vector2f vector);
-	sf::Vector2f		unitVector(sf::Vector2f vector);
+
 }
